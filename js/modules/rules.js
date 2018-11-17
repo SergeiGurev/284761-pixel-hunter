@@ -36,7 +36,7 @@ const rulesFormInput = rulesElement.querySelector(`.rules__input`);
 const rulesFormBtn = rulesElement.querySelector(`.rules__button`);
 
 rulesFormInput.addEventListener(`input`, () => {
-  rulesFormBtn.disabled = rulesFormInput.value === ``;
+  rulesFormBtn.disabled = !rulesFormInput.value;
 });
 
 rulesForm.addEventListener(`submit`, (e) => {
