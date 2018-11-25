@@ -1,4 +1,4 @@
-const getTime = (game, time) => {
+const changeTime = (game, time) => {
   if (typeof time !== `number`) {
     throw new Error(`Значение времени должно быть числом`);
   }
@@ -12,4 +12,4 @@ const getTime = (game, time) => {
   });
 };
 
-export default getTime;
+export default changeTime;
