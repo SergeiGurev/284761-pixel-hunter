@@ -1,0 +1,61 @@
+import getScore from '../modules/utils/get-score/get-score.js';
+import renderGameStats from './game-stats.js';
+
+const renderResults = (game) => {
+  const score = getScore(game.answers, game.lives);
+  const correctAnswers = game.answers.filter((answer) => answer.isTrue).length;
+  const fastAnswers = game.answers.filter((answer) => answer.time < 10).length;
+  const slowAnswers = game.answers.filter((answer) => answer.time > 20).length;
+  const results = `<table class="result__table">
+    <tr>
+      <td class="result__number">1.</td>
+      <td colspan="2">
+        ${renderGameStats(game.answers)}
+      </td>
+      <td class="result__points">× 100</td>
+      <td class="result__total">${correctAnswers * 100}</td>
+    </tr>
+    ${fastAnswers > 0 ? `<tr>
+      <td></td>
+      <td class="result__extra">Бонус за скорость:</td>
+      <td class="result__extra">${fastAnswers} <span class="stats__result stats__result--fast"></span></td>
+      <td class="result__points">× 50</td>
+      <td class="result__total">${fastAnswers * 50}</td>
+    </tr>` : ``}
+    ${game.lives > 0 ? `<tr>
+      <td></td>
+      <td class="result__extra">Бонус за жизни:</td>
+      <td class="result__extra">${game.lives} <span class="stats__result stats__result--alive"></span></td>
+      <td class="result__points">× 50</td>
+      <td class="result__total">${game.lives * 50}</td>
+    </tr>` : ``}
+    ${slowAnswers > 0 ? `<tr>
+      <td></td>
+      <td class="result__extra">Штраф за медлительность:</td>
+      <td class="result__extra">${slowAnswers} <span class="stats__result stats__result--slow"></span></td>
+      <td class="result__points">× 50</td>
+      <td class="result__total">${-slowAnswers * 50}</td>
+    </tr>` : ``}
+    <tr>
+      <td colspan="5" class="result__total  result__total--final">${score < 0 ? `FAIL` : score}</td>
+    </tr>
+  </table>`;
+
+  return `<header class="header">
+    <button class="back">
+      <span class="visually-hidden">Вернуться к началу</span>
+      <svg class="icon" width="45" height="45" viewBox="0 0 45 45" fill="#000000">
+        <use xlink:href="img/sprite.svg#arrow-left"></use>
+      </svg>
+      <svg class="icon" width="101" height="44" viewBox="0 0 101 44" fill="#000000">
+        <use xlink:href="img/sprite.svg#logo-small"></use>
+      </svg>
+    </button>
+  </header>
+  <section class="result">
+    <h2 class="result__title">${game.answers.length === 10 ? `Победа!` : `Поражение`}</h2>
+    ${results}
+  </section>`;
+};
+
+export default renderResults;

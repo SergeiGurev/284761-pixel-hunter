@@ -1,4 +1,4 @@
-const getLives = (game, lives) => {
+const changeLives = (game, lives) => {
   if (typeof lives !== `number`) {
     throw new Error(`Кол-во жизней должно быть числом`);
   }
@@ -12,4 +12,4 @@ const getLives = (game, lives) => {
   });
 };
 
-export default getLives;
+export default changeLives;

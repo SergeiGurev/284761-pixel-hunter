@@ -1,12 +1,9 @@
-import getElementFromTemplate from './element-maker.js';
-import showScreen from './show-screen.js';
+import getElementFromTemplate from './utils/get-element-from-template.js';
+import showScreen from './utils/show-screen.js';
 import greetingElement from './greeting.js';
+import renderIntro from '../templates/intro.js';
 
-const introTemplate = `<section class="intro">
-  <button class="intro__asterisk asterisk" type="button"><span class="visually-hidden">Продолжить</span>*</button>
-  <p class="intro__motto"><sup>*</sup> Это не фото. Это рисунок маслом нидерландского художника-фотореалиста Tjalf Sparnaay.</p>
-</section>`;
-const introElement = getElementFromTemplate(introTemplate);
+const introElement = getElementFromTemplate(renderIntro());
 const switchScreenBtn = introElement.querySelector(`.intro__asterisk`);
 
 switchScreenBtn.addEventListener(`click`, () => {

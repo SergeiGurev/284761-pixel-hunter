@@ -5,7 +5,7 @@ const answers = [];
 for (let i = 0; i < 10; i++) {
   answers.push({
     isTrue: true,
-    time: 15000
+    time: 15
   });
 }
 
@@ -19,10 +19,10 @@ describe(`getScore`, () => {
     answers[1].isTrue = false;
     assert.equal(getScore(answers, 1), 850); // 2 неправильных ответа, 1 жизнь
 
-    answers[2].time = 5000;
+    answers[2].time = 5;
     assert.equal(getScore(answers, 2), 950); // 2 неправильных ответа и 1 быстрый, 2 жизни
 
-    answers[3].time = 25000;
+    answers[3].time = 25;
     assert.equal(getScore(answers, 2), 900); // 2 неправильных ответа и 1 медленный, 2 жизни
   });
 

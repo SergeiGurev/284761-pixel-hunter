@@ -6,8 +6,8 @@ const getScore = (answers, lives) => {
   const TRUE_POINTS = 100;
   const LIVE_POINTS = 50;
   const TIME_BONUS_OR_PENALTY = 50;
-  const FAST_TIME = 10000;
-  const SLOW_TIME = 20000;
+  const FAST_TIME = 10;
+  const SLOW_TIME = 20;
   let points = 0;
 
   answers.forEach((answer) => {

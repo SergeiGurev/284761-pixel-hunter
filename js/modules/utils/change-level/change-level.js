@@ -1,4 +1,4 @@
-const getLevel = (game, level) => {
+const changeLevel = (game, level) => {
   if (typeof level !== `number`) {
     throw new Error(`Номер уровня должен быть числом`);
   }
@@ -12,4 +12,4 @@ const getLevel = (game, level) => {
   });
 };
 
-export default getLevel;
+export default changeLevel;
