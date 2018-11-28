@@ -75,7 +75,7 @@ const updateListeners = (state, element) => {
 
           optionAnswers.set(index, (levelPics[index].isImage && isImageBtn) || (!levelPics[index].isImage && isNotImageBtn));
 
-          if ((optionAnswers.size === options.length)) {
+          if (optionAnswers.size === options.length) {
             let levelAnswer = [...optionAnswers.values()].every((answer) => answer);
 
             updateGame(state, levelAnswer);
