@@ -1,5 +1,5 @@
-import getElementFromTemplate from './utils/get-element-from-template.js';
-import backToGreeting from './utils/back-to-greeting.js';
+import getElementFromTemplate from '../utils/get-element-from-template.js';
+import backToGreeting from '../utils/back-to-greeting.js';
 import game from './game.js';
 import renderRules from '../templates/rules.js';
 

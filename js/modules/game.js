@@ -1,6 +1,6 @@
-import getElementFromTemplate from './utils/get-element-from-template.js';
-import showScreen from './utils/show-screen.js';
-import backToGreeting from './utils/back-to-greeting.js';
+import getElementFromTemplate from '../utils/get-element-from-template.js';
+import showScreen from '../utils/show-screen.js';
+import backToGreeting from '../utils/back-to-greeting.js';
 import {INITIAL_GAME, levels} from '../data/game-data.js';
 
 import renderHeader from '../templates/header.js';
@@ -8,8 +8,8 @@ import renderGame from '../templates/game.js';
 import renderGameStats from '../templates/game-stats.js';
 import renderResults from '../templates/results.js';
 
-import changeLevel from './utils/change-level/change-level.js';
-import changeLives from './utils/change-lives/change-lives.js';
+import changeLevel from '../utils/change-level/change-level.js';
+import changeLives from '../utils/change-lives/change-lives.js';
 
 const getLevel = (state) => levels[state.level];
 
