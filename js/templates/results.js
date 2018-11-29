@@ -1,4 +1,4 @@
-import getScore from '../modules/utils/get-score/get-score.js';
+import getScore from '../utils/get-score/get-score.js';
 import renderGameStats from './game-stats.js';
 
 const renderResults = (game) => {

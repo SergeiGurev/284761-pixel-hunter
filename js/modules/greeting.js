@@ -1,5 +1,5 @@
-import getElementFromTemplate from './utils/get-element-from-template.js';
-import showScreen from './utils/show-screen.js';
+import getElementFromTemplate from '../utils/get-element-from-template.js';
+import showScreen from '../utils/show-screen.js';
 import rulesElement from './rules.js';
 import renderGreeting from '../templates/greeting.js';
 
