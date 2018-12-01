@@ -1,13 +1,13 @@
-import getElementFromTemplate from '../utils/get-element-from-template.js';
 import showScreen from '../utils/show-screen.js';
 import greetingElement from './greeting.js';
-import renderIntro from '../templates/intro.js';
+import Intro from '../templates/intro.js';
 
-const introElement = getElementFromTemplate(renderIntro());
-const switchScreenBtn = introElement.querySelector(`.intro__asterisk`);
+export default () => {
+  const introElement = new Intro();
 
-switchScreenBtn.addEventListener(`click`, () => {
-  showScreen(greetingElement);
-});
+  introElement.onBtnClick = () => {
+    greetingElement();
+  };
 
-export default introElement;
+  showScreen(introElement.element);
+};

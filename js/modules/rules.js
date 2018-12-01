@@ -1,22 +1,24 @@
-import getElementFromTemplate from '../utils/get-element-from-template.js';
-import backToGreeting from '../utils/back-to-greeting.js';
+import showScreen from '../utils/show-screen.js';
 import game from './game.js';
-import renderRules from '../templates/rules.js';
+import greetingElement from './greeting.js';
+import Rules from '../templates/rules.js';
 
-const rulesElement = getElementFromTemplate(renderRules());
-const rulesForm = rulesElement.querySelector(`.rules__form`);
-const rulesFormInput = rulesElement.querySelector(`.rules__input`);
-const rulesFormBtn = rulesElement.querySelector(`.rules__button`);
+export default () => {
+  const rulesElement = new Rules();
+  const rulesFormBtn = rulesElement.element.querySelector(`.rules__button`);
+  const rulesFormInput = rulesElement.element.querySelector(`.rules__input`);
 
-rulesFormInput.addEventListener(`input`, () => {
-  rulesFormBtn.disabled = !rulesFormInput.value;
-});
+  rulesElement.onInput = () => {
+    rulesFormBtn.disabled = !rulesFormInput.value;
+  };
 
-rulesForm.addEventListener(`submit`, (e) => {
-  e.preventDefault();
-  game();
-});
+  rulesElement.onSubmit = () => {
+    game();
+  };
 
-backToGreeting(rulesElement);
+  rulesElement.onBackClick = () => {
+    greetingElement();
+  };
 
-export default rulesElement;
+  showScreen(rulesElement.element);
+};
