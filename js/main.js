@@ -1,3 +1,3 @@
-import introElement from './modules/intro.js';
+import introElement from './screens/intro.js';
 
 introElement();

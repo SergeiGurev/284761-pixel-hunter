@@ -1,7 +1,7 @@
 import showScreen from '../utils/show-screen.js';
 import game from './game.js';
 import greetingElement from './greeting.js';
-import Rules from '../templates/rules.js';
+import Rules from '../view/rules-view.js';
 
 export default () => {
   const rulesElement = new Rules();

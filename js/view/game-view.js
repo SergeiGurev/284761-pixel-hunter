@@ -1,8 +1,8 @@
 import resize from '../utils/resize/resize.js';
 import {levelTypes, levels} from '../data/game-data.js';
 import AbstractView from './abstract-view.js';
-import Header from './header.js';
-import GameStats from './game-stats.js';
+import Header from './header-view.js';
+import GameStats from './game-stats-view.js';
 
 class Game extends AbstractView {
   constructor(state) {

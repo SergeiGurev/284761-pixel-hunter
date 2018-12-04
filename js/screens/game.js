@@ -2,8 +2,8 @@ import showScreen from '../utils/show-screen.js';
 import greetingElement from './greeting.js';
 import {INITIAL_GAME, levels} from '../data/game-data.js';
 
-import Game from '../templates/game.js';
-import Results from '../templates/results.js';
+import Game from '../view/game-view.js';
+import Results from '../view/results-view.js';
 
 import changeLevel from '../utils/change-level/change-level.js';
 import changeLives from '../utils/change-lives/change-lives.js';

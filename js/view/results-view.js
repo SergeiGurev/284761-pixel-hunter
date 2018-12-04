@@ -1,6 +1,6 @@
 import getScore from '../utils/get-score/get-score.js';
 import AbstractView from './abstract-view.js';
-import GameStats from './game-stats.js';
+import GameStats from './game-stats-view.js';
 
 class Results extends AbstractView {
   constructor(game) {
