@@ -1,8 +1,7 @@
 import resize from '../utils/resize/resize.js';
 import {levelTypes, levels} from '../data/game-data.js';
 import AbstractView from './abstract-view.js';
-import Header from './header.js';
-import GameStats from './game-stats.js';
+import GameStats from './game-stats-view.js';
 
 class Game extends AbstractView {
   constructor(state) {
@@ -16,15 +15,13 @@ class Game extends AbstractView {
 
   get template() {
     const renderGameStats = new GameStats(this.state.answers);
-    const renderHeader = new Header(this.state);
     const levelType = this.level.type;
     const frameSize = levelTypes[levelType].imageSize;
     let contentClass = `game__content`;
     contentClass += (levelType === `images-1`) ? ` game__content--wide` : ``;
     contentClass += (levelType === `images-3`) ? ` game__content--triple` : ``;
 
-    return `${renderHeader.template}
-    <section class="game">
+    return `<section class="game">
       <p class="game__task">${this.level.text}</p>
       <form class="${contentClass}">
     ${this.level.images.map((image, index) => {
@@ -56,14 +53,9 @@ class Game extends AbstractView {
   }
 
   bind(element) {
-    const backBtn = element.querySelector(`.back`);
     const options = [...element.querySelectorAll(`.game__option`)];
     let optionAnswers = new Map();
     const levelPics = this.level.images;
-
-    backBtn.addEventListener(`click`, () => {
-      this.onBackClick();
-    });
 
     options.forEach((option, index) => {
       const buttons = [...option.querySelectorAll(`.game__answer`)];
@@ -81,7 +73,7 @@ class Game extends AbstractView {
             if (optionAnswers.size === options.length) {
               let levelAnswer = [...optionAnswers.values()].every((answer) => answer);
 
-              this.updateGame(this.state, levelAnswer);
+              this.updateGame(levelAnswer);
             }
           });
         }
@@ -89,14 +81,13 @@ class Game extends AbstractView {
         option.addEventListener(`click`, () => {
           const levelAnswer = levelPics[index].isImage;
 
-          this.updateGame(this.state, levelAnswer);
+          this.updateGame(levelAnswer);
         });
       }
     });
   }
 
   updateGame() {}
-  onBackClick() {}
 }
 
 export default Game;

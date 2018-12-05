@@ -28,6 +28,16 @@ class Header extends AbstractView {
       </div>
     </header>`;
   }
+
+  bind(element) {
+    const backBtn = element.querySelector(`.back`);
+
+    backBtn.addEventListener(`click`, () => {
+      this.onBackClick();
+    });
+  }
+
+  onBackClick() {}
 }
 
 export default Header;

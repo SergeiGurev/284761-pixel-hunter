@@ -1,3 +1,3 @@
-import introElement from './modules/intro.js';
+import Application from './application.js';
 
-introElement();
+Application.showIntro();
