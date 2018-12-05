@@ -1,13 +1,19 @@
 import showScreen from '../utils/show-screen.js';
-import rulesElement from './rules.js';
-import Greeting from '../view/greeting-view.js';
+import Application from '../application.js';
+import GreetingView from '../view/greeting-view.js';
 
-export default () => {
-  const greetingElement = new Greeting();
+class GreetingScreen {
+  constructor() {
+    this.content = new GreetingView();
+  }
 
-  greetingElement.onBtnClick = () => {
-    rulesElement();
-  };
+  updateScreen() {
+    showScreen(this.content.element);
 
-  showScreen(greetingElement.element);
-};
+    this.content.onBtnClick = () => {
+      Application.showRules();
+    };
+  }
+}
+
+export default GreetingScreen;

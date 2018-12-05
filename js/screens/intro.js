@@ -1,13 +1,19 @@
 import showScreen from '../utils/show-screen.js';
-import greetingElement from './greeting.js';
-import Intro from '../view/intro-view.js';
+import Application from '../application.js';
+import IntroView from '../view/intro-view.js';
 
-export default () => {
-  const introElement = new Intro();
+class IntroScreen {
+  constructor() {
+    this.content = new IntroView();
+  }
 
-  introElement.onBtnClick = () => {
-    greetingElement();
-  };
+  updateScreen() {
+    showScreen(this.content.element);
 
-  showScreen(introElement.element);
-};
+    this.content.onBtnClick = () => {
+      Application.showGreeting();
+    };
+  }
+}
+
+export default IntroScreen;

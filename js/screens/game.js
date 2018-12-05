@@ -1,62 +1,107 @@
-import showScreen from '../utils/show-screen.js';
-import greetingElement from './greeting.js';
 import {INITIAL_GAME, levels} from '../data/game-data.js';
+import showScreen from '../utils/show-screen.js';
+import Application from '../application.js';
 
-import Game from '../view/game-view.js';
-import Results from '../view/results-view.js';
+import GameView from '../view/game-view.js';
+import HeaderView from '../view/header-view.js';
+import ResultsView from '../view/results-view.js';
 
-import changeLevel from '../utils/change-level/change-level.js';
-import changeLives from '../utils/change-lives/change-lives.js';
+const ONE_SECOND = 1000;
+const TIME_TO_ANSWER = INITIAL_GAME.time;
+const TOTAL_LEVELS = levels.length;
 
-const onBackClick = () => {
-  greetingElement();
-};
+class GameScreen {
+  constructor(model) {
+    this.model = model;
+    this.content = new GameView(this.model.state);
+    this.header = new HeaderView(this.model.state);
 
-const endGame = (state) => {
-  const resultsElement = new Results(state);
+    this.root = document.createElement(`div`);
+    this.root.appendChild(this.header.element);
+    this.root.appendChild(this.content.element);
 
-  resultsElement.onBackClick = onBackClick;
-  showScreen(resultsElement.element);
-};
-
-const updateScreen = (state) => {
-  if (state.level === levels.length) {
-    endGame(state);
-    return;
+    this._timer = null;
   }
 
-  const game = new Game(state);
+  _tick() {
+    this.updateHeaderView();
+    this.model.tick();
 
-  game.updateGame = updateGame;
-  game.onBackClick = onBackClick;
+    if (!this.model.time) {
+      this.updateGame();
+    }
 
-  showScreen(game.element);
-};
+    this._timer = setTimeout(() => {
+      this._tick();
+    }, ONE_SECOND);
+  }
 
-const updateGame = (state, answer) => {
-  let newState = Object.assign({}, state);
-  newState.answers.push({
-    isTrue: answer,
-    time: 15
-  });
+  stopTimer() {
+    clearInterval(this._timer);
+  }
 
-  if (!answer) {
-    if (newState.lives === 0) {
-      endGame(newState);
+  updateHeaderView() {
+    const header = new HeaderView(this.model.state);
+    this.root.replaceChild(header.element, this.header.element);
+    this.header = header;
+    this.header.onBackClick = () => {
+      Application.showGreeting();
+    };
+  }
+
+  updateContentView() {
+    const content = new GameView(this.model.state);
+    this.root.replaceChild(content.element, this.content.element);
+    this.content = content;
+  }
+
+  updateGame(answer = false) {
+    this.stopTimer();
+
+    const answerTime = TIME_TO_ANSWER - this.model.time;
+
+    this.model.saveAnswer(answer, answerTime);
+
+    if (!answer) {
+      if (this.model.isDead()) {
+        this.endGame();
+        return;
+      }
+      this.model.removeLive();
+    }
+
+    this.model.nextLevel();
+    this.model.resetTime();
+    this.startGame();
+  }
+
+  updateScreen() {
+    if (this.model.state.level === TOTAL_LEVELS) {
+      this.endGame();
       return;
     }
-    newState = changeLives(newState, newState.lives - 1);
+
+    this.updateHeaderView();
+    this.updateContentView();
+    this.content.updateGame = this.updateGame.bind(this);
+
+    showScreen(this.root);
   }
 
-  newState = changeLevel(newState, newState.level + 1);
+  startGame() {
+    this.updateScreen();
+    this._tick();
+  }
 
-  updateScreen(newState);
-};
+  endGame() {
+    const resultsElement = new ResultsView(this.model.state);
 
-export default () => {
-  let game = Object.assign({}, INITIAL_GAME, {
-    answers: []
-  });
+    resultsElement.onBackClick = () => {
+      Application.showGreeting();
+    };
 
-  updateScreen(game);
-};
+    showScreen(resultsElement.element);
+  }
+}
+
+export default GameScreen;

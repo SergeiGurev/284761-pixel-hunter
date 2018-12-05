@@ -1,24 +1,23 @@
 import showScreen from '../utils/show-screen.js';
-import game from './game.js';
-import greetingElement from './greeting.js';
-import Rules from '../view/rules-view.js';
+import Application from '../application.js';
+import RulesView from '../view/rules-view.js';
 
-export default () => {
-  const rulesElement = new Rules();
-  const rulesFormBtn = rulesElement.element.querySelector(`.rules__button`);
-  const rulesFormInput = rulesElement.element.querySelector(`.rules__input`);
+class RulesScreen {
+  constructor() {
+    this.content = new RulesView();
+  }
 
-  rulesElement.onInput = () => {
-    rulesFormBtn.disabled = !rulesFormInput.value;
-  };
+  updateScreen() {
+    showScreen(this.content.element);
 
-  rulesElement.onSubmit = () => {
-    game();
-  };
+    this.content.onSubmit = () => {
+      Application.showGame();
+    };
 
-  rulesElement.onBackClick = () => {
-    greetingElement();
-  };
+    this.content.onBackClick = () => {
+      Application.showGreeting();
+    };
+  }
+}
 
-  showScreen(rulesElement.element);
-};
+export default RulesScreen;

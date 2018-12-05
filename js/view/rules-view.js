@@ -39,9 +39,10 @@ class Rules extends AbstractView {
     const rulesForm = element.querySelector(`.rules__form`);
     const rulesFormInput = element.querySelector(`.rules__input`);
     const backBtn = element.querySelector(`.back`);
+    const rulesFormBtn = element.querySelector(`.rules__button`);
 
     rulesFormInput.addEventListener(`input`, () => {
-      this.onInput();
+      rulesFormBtn.disabled = !rulesFormInput.value;
     });
 
     rulesForm.addEventListener(`submit`, (evt) => {
@@ -54,7 +55,6 @@ class Rules extends AbstractView {
     });
   }
 
-  onInput() {}
   onSubmit() {}
   onBackClick() {}
 }
