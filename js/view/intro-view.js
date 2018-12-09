@@ -12,15 +12,16 @@ class Intro extends AbstractView {
     </section>`;
   }
 
-  bind(element) {
-    const switchScreenBtn = element.querySelector(`.intro__asterisk`);
-    switchScreenBtn.addEventListener(`click`, (evt) => {
-      evt.preventDefault();
-      this.onBtnClick();
-    });
-  }
+  preloader(preload) {
+    this.preload = preload;
+    const preloader = this.element.querySelector(`.intro__asterisk`);
 
-  onBtnClick() {}
+    if (this.preload) {
+      preloader.classList.add(`intro__asterisk--animation`);
+    } else {
+      preloader.classList.remove(`intro__asterisk--animation`);
+    }
+  }
 }
 
 export default Intro;

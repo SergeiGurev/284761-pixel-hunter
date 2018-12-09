@@ -2,6 +2,16 @@
  * Стили для первого вступительного экрана
  */
 
+@keyframes rotate {
+  from {
+    transform: rotate(0);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 .intro {
   position: relative;
 
@@ -23,7 +33,18 @@
   left: 395px;
 
   font-size: 172px;
-  line-height: 128px;
+  // line-height: 128px;
+
+  line-height: 15px;
+  padding-top: 55px;
+
+  animation-duration: 3s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+
+  &--animation {
+    animation-name: rotate;
+  }
 }
 
 .intro__motto {

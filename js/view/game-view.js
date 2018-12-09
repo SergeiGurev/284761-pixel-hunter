@@ -32,8 +32,8 @@ class Game extends AbstractView {
       width: answer.image.width,
       height: answer.image.height
     }, {
-      width: image.width,
-      height: image.height
+      width: image.naturalWidth,
+      height: image.naturalHeight
     });
 
     const imageElement = `<img src=${answer.image.url} alt="Option ${index + 1}" width="${size.width}" height="${size.height}">`;

@@ -8,7 +8,6 @@ import ResultsView from '../view/results-view.js';
 
 const ONE_SECOND = 1000;
 const TIME_TO_ANSWER = INITIAL_GAME.time;
-// const TOTAL_LEVELS = window.data.length;
 
 class GameScreen {
   constructor(model, data) {

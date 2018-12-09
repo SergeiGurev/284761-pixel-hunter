@@ -2,8 +2,8 @@ const resize = (frame, image) => {
   const {width: frameWidth, height: frameHeight} = frame;
   const {width: imageWidth, height: imageHeight} = image;
 
-  const newHeight = frameWidth * imageHeight / imageWidth;
-  const newWidth = frameHeight * imageWidth / imageHeight;
+  const newHeight = Math.floor(frameWidth * imageHeight / imageWidth);
+  const newWidth = Math.floor(frameHeight * imageWidth / imageHeight);
 
   // проверяем соотношение сторон, если при вписании по высоте или ширине, вторая вычисленная сторона не влезает в рамку, делаем наоборот(вписываем по другой стороне)
   if (imageWidth > imageHeight) {
