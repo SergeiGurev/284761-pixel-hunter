@@ -4,7 +4,6 @@ import Application from '../application.js';
 
 import GameView from '../view/game-view.js';
 import HeaderView from '../view/header-view.js';
-import ResultsView from '../view/results-view.js';
 
 const ONE_SECOND = 1000;
 const TIME_TO_ANSWER = INITIAL_GAME.time;
@@ -93,13 +92,7 @@ class GameScreen {
   }
 
   endGame() {
-    const resultsElement = new ResultsView(this.model.state);
-
-    resultsElement.onBackClick = () => {
-      Application.showGreeting(this.model.data);
-    };
-
-    showScreen(resultsElement.element);
+    Application.showResults(this.model);
   }
 }
 
