@@ -1,4 +1,4 @@
-import {INITIAL_GAME, levels} from '../data/game-data.js';
+import {INITIAL_GAME} from '../data/game-data.js';
 import showScreen from '../utils/show-screen.js';
 import Application from '../application.js';
 
@@ -8,12 +8,12 @@ import ResultsView from '../view/results-view.js';
 
 const ONE_SECOND = 1000;
 const TIME_TO_ANSWER = INITIAL_GAME.time;
-const TOTAL_LEVELS = levels.length;
 
 class GameScreen {
-  constructor(model) {
+  constructor(model, data) {
+    this.data = data;
     this.model = model;
-    this.content = new GameView(this.model.state);
+    this.content = new GameView(this.model.state, this.model.data);
     this.header = new HeaderView(this.model.state);
 
     this.root = document.createElement(`div`);
@@ -25,11 +25,13 @@ class GameScreen {
 
   _tick() {
     this.updateHeaderView();
-    this.model.tick();
 
     if (!this.model.time) {
       this.updateGame();
+      return;
     }
+
+    this.model.tick();
 
     this._timer = setTimeout(() => {
       this._tick();
@@ -45,12 +47,13 @@ class GameScreen {
     this.root.replaceChild(header.element, this.header.element);
     this.header = header;
     this.header.onBackClick = () => {
-      Application.showGreeting();
+      this.stopTimer();
+      Application.showGreeting(this.model.data);
     };
   }
 
   updateContentView() {
-    const content = new GameView(this.model.state);
+    const content = new GameView(this.model.state, this.model.data);
     this.root.replaceChild(content.element, this.content.element);
     this.content = content;
   }
@@ -72,32 +75,28 @@ class GameScreen {
 
     this.model.nextLevel();
     this.model.resetTime();
-    this.startGame();
+    this.updateScreen();
   }
 
   updateScreen() {
-    if (this.model.state.level === TOTAL_LEVELS) {
+    if (this.model.end()) {
+      this.stopTimer();
       this.endGame();
       return;
     }
 
-    this.updateHeaderView();
+    this._tick();
     this.updateContentView();
     this.content.updateGame = this.updateGame.bind(this);
 
     showScreen(this.root);
   }
 
-  startGame() {
-    this.updateScreen();
-    this._tick();
-  }
-
   endGame() {
     const resultsElement = new ResultsView(this.model.state);
 
     resultsElement.onBackClick = () => {
-      Application.showGreeting();
+      Application.showGreeting(this.model.data);
     };
 
     showScreen(resultsElement.element);

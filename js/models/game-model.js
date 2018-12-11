@@ -5,8 +5,9 @@ import changeLives from '../utils/change-lives/change-lives.js';
 import changeTime from '../utils/change-time/change-time.js';
 
 class GameModel {
-  constructor(playerName) {
+  constructor(data, playerName) {
     this.playerName = playerName;
+    this._data = data;
     this.start();
   }
 
@@ -18,6 +19,10 @@ class GameModel {
     return this._state.time;
   }
 
+  get data() {
+    return this._data;
+  }
+
   resetTime() {
     this._state.time = INITIAL_GAME.time;
   }
@@ -26,6 +31,10 @@ class GameModel {
     this._state = Object.assign({}, INITIAL_GAME, {
       answers: []
     });
+  }
+
+  end() {
+    return this._state.level === this._data.length;
   }
 
   saveAnswer(answer, time) {

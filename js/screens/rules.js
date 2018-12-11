@@ -3,7 +3,8 @@ import Application from '../application.js';
 import RulesView from '../view/rules-view.js';
 
 class RulesScreen {
-  constructor() {
+  constructor(data) {
+    this.data = data;
     this.content = new RulesView();
   }
 
@@ -11,11 +12,11 @@ class RulesScreen {
     showScreen(this.content.element);
 
     this.content.onSubmit = () => {
-      Application.showGame();
+      Application.showGame(this.data, `name`);
     };
 
     this.content.onBackClick = () => {
-      Application.showGreeting();
+      Application.showGreeting(this.data);
     };
   }
 }

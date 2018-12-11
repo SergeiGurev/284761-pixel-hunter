@@ -3,7 +3,8 @@ import Application from '../application.js';
 import GreetingView from '../view/greeting-view.js';
 
 class GreetingScreen {
-  constructor() {
+  constructor(data) {
+    this.data = data;
     this.content = new GreetingView();
   }
 
@@ -11,7 +12,7 @@ class GreetingScreen {
     showScreen(this.content.element);
 
     this.content.onBtnClick = () => {
-      Application.showRules();
+      Application.showRules(this.data);
     };
   }
 }

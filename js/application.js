@@ -1,30 +1,55 @@
 import IntroScreen from './screens/intro.js';
+import ErrorScreen from './screens/error.js';
 import RulesScreen from './screens/rules.js';
 import GreetingScreen from './screens/greeting.js';
 import GameScreen from './screens/game.js';
 import GameModel from './models/game-model.js';
+
+const loadImage = (url) => {
+  return new Promise((resolve, reject) => {
+    const image = new Image();
+    image.onload = () => resolve(image);
+    image.onerror = () => reject(`Не удалось загрузить картнку: ${url}`);
+    image.src = url;
+  });
+};
 
 export default class Application {
 
   static showIntro() {
     const intro = new IntroScreen();
     intro.updateScreen();
+    intro.startPreloader();
+    window.fetch(`https://es.dump.academy/pixel-hunter/questions`)
+      .then((response) => response.json())
+      .then((data) => {
+        this.data = data;
+        return [].concat(...data.map(({answers}) => answers.map(({image}) => loadImage(image.url))));
+      })
+      .then((images) => Promise.all(images))
+      .then(() => Application.showGreeting(this.data))
+      .catch((error) => Application.showError(error));
   }
 
-  static showGreeting() {
-    const greeting = new GreetingScreen();
+  static showGreeting(data) {
+    const greeting = new GreetingScreen(data);
     greeting.updateScreen();
   }
 
-  static showRules() {
-    const rules = new RulesScreen();
+  static showRules(data) {
+    const rules = new RulesScreen(data);
     rules.updateScreen();
   }
 
-  static showGame(userName = ``) {
-    const model = new GameModel(userName);
+  static showGame(data, userName = ``) {
+    const model = new GameModel(data, userName);
     const gameScreen = new GameScreen(model);
-    gameScreen.startGame();
+    gameScreen.updateScreen();
+  }
+
+  static showError(error) {
+    const errorScreen = new ErrorScreen(error);
+    errorScreen.updateScreen();
   }
 
 }
