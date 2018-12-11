@@ -1,4 +1,5 @@
 import IntroScreen from './screens/intro.js';
+import ErrorScreen from './screens/error.js';
 import RulesScreen from './screens/rules.js';
 import GreetingScreen from './screens/greeting.js';
 import GameScreen from './screens/game.js';
@@ -26,13 +27,8 @@ export default class Application {
         return [].concat(...data.map(({answers}) => answers.map(({image}) => loadImage(image.url))));
       })
       .then((images) => Promise.all(images))
-      .then((images) => {
-        this.image = images;
-        intro.stopPreloader();
-        return this.data;
-      })
-      .then((data) => Application.showGreeting(data))
-      .catch();
+      .then(() => Application.showGreeting(this.data))
+      .catch((error) => Application.showError(error));
   }
 
   static showGreeting(data) {
@@ -49,6 +45,11 @@ export default class Application {
     const model = new GameModel(data, userName);
     const gameScreen = new GameScreen(model);
     gameScreen.updateScreen();
+  }
+
+  static showError(error) {
+    const errorScreen = new ErrorScreen(error);
+    errorScreen.updateScreen();
   }
 
 }
