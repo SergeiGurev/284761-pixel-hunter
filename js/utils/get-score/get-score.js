@@ -1,13 +1,16 @@
+const TRUE_POINTS = 100;
+const LIVE_POINTS = 50;
+const TIME_BONUS_OR_PENALTY = 50;
+const FAST_TIME = 10;
+const SLOW_TIME = 20;
+
 const getScore = (answers, lives) => {
-  if (answers.length < 10) {
+  const wrongAnswers = answers.filter((answer) => !answer.isTrue).length;
+
+  if (answers.length < 10 || wrongAnswers > 3) {
     return -1;
   }
 
-  const TRUE_POINTS = 100;
-  const LIVE_POINTS = 50;
-  const TIME_BONUS_OR_PENALTY = 50;
-  const FAST_TIME = 10;
-  const SLOW_TIME = 20;
   let points = 0;
 
   answers.forEach((answer) => {
