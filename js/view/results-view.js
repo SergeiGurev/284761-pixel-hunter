@@ -13,9 +13,10 @@ class Results extends AbstractView {
     const results = this.data.map((game, index) => {
       const renderGameStats = new GameStats(game.answers);
       const score = getScore(game.answers, game.lives);
-      const correctAnswers = game.answers.filter((answer) => answer.isTrue).length;
-      const fastAnswers = game.answers.filter((answer) => answer.time < 10).length;
-      const slowAnswers = game.answers.filter((answer) => answer.time > 20).length;
+      const correctAnswersArr = game.answers.filter((answer) => answer.isTrue);
+      const correctAnswers = correctAnswersArr.length;
+      const fastAnswers = correctAnswersArr.filter((answer) => answer.time < 10).length;
+      const slowAnswers = correctAnswersArr.filter((answer) => answer.time > 20).length;
       if (!index) {
         this.win = !(score < 0);
       }
