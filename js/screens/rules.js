@@ -12,7 +12,7 @@ class RulesScreen {
     showScreen(this.content.element);
 
     this.content.onSubmit = () => {
-      Application.showGame(this.data, `name`);
+      Application.showGame(this.data, this.content.playerName);
     };
 
     this.content.onBackClick = () => {

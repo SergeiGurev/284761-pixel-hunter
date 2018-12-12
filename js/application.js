@@ -4,6 +4,11 @@ import RulesScreen from './screens/rules.js';
 import GreetingScreen from './screens/greeting.js';
 import GameScreen from './screens/game.js';
 import GameModel from './models/game-model.js';
+import ResultsScreen from './screens/results.js';
+import Loader from './loader.js';
+
+const SERVER_URL = `https://es.dump.academy/pixel-hunter`;
+const APP_ID = 284761;
 
 const loadImage = (url) => {
   return new Promise((resolve, reject) => {
@@ -20,8 +25,7 @@ export default class Application {
     const intro = new IntroScreen();
     intro.updateScreen();
     intro.startPreloader();
-    window.fetch(`https://es.dump.academy/pixel-hunter/questions`)
-      .then((response) => response.json())
+    Loader.loadData()
       .then((data) => {
         this.data = data;
         return [].concat(...data.map(({answers}) => answers.map(({image}) => loadImage(image.url))));
@@ -41,10 +45,20 @@ export default class Application {
     rules.updateScreen();
   }
 
-  static showGame(data, userName = ``) {
-    const model = new GameModel(data, userName);
-    const gameScreen = new GameScreen(model);
-    gameScreen.updateScreen();
+  static showGame(data, playerName = ``) {
+    const model = new GameModel(data, playerName);
+    const game = new GameScreen(model);
+    game.updateScreen();
+  }
+
+  static showResults(model) {
+    Loader.saveResults(model.state, model.playerName)
+      .then(() => Loader.loadResults(model.playerName))
+      .then((data) => {
+        const results = new ResultsScreen(model, data);
+        results.updateScreen();
+      })
+      .catch((error) => Application.showError(error));
   }
 
   static showError(error) {

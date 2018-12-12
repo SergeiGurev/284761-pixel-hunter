@@ -35,6 +35,11 @@ class Rules extends AbstractView {
     </section>`;
   }
 
+  get playerName() {
+    const input = this.element.querySelector(`.rules__input`);
+    return input.value;
+  }
+
   bind(element) {
     const rulesForm = element.querySelector(`.rules__form`);
     const rulesFormInput = element.querySelector(`.rules__input`);
