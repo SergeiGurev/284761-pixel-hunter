@@ -7,9 +7,6 @@ import GameModel from './models/game-model.js';
 import ResultsScreen from './screens/results.js';
 import Loader from './loader.js';
 
-const SERVER_URL = `https://es.dump.academy/pixel-hunter`;
-const APP_ID = 284761;
-
 const loadImage = (url) => {
   return new Promise((resolve, reject) => {
     const image = new Image();
@@ -52,10 +49,11 @@ export default class Application {
   }
 
   static showResults(model) {
-    Loader.saveResults(model.state, model.playerName)
-      .then(() => Loader.loadResults(model.playerName))
+    const name = model.playerName;
+    Loader.saveResults(model.state, name)
+      .then(() => Loader.loadResults(name))
       .then((data) => {
-        const results = new ResultsScreen(model, data);
+        const results = new ResultsScreen(model.data, data);
         results.updateScreen();
       })
       .catch((error) => Application.showError(error));
