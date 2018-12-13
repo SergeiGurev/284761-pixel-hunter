@@ -1,15 +1,15 @@
-import showScreen from '../utils/show-screen.js';
 import ErrorView from '../view/error-view.js';
 
-class ErrorScreen {
+class ErrorModal {
   constructor(error) {
     this.error = error;
-    this.content = new ErrorView(error);
+    this.content = new ErrorView(this.error);
   }
 
   updateScreen() {
-    showScreen(this.content.element);
+    const body = document.querySelector(`body`);
+    body.appendChild(this.content.element);
   }
 }
 
-export default ErrorScreen;
+export default ErrorModal;

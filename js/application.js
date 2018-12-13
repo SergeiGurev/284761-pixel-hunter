@@ -1,5 +1,5 @@
 import IntroScreen from './screens/intro.js';
-import ErrorScreen from './screens/error.js';
+import ErrorModal from './screens/error.js';
 import RulesScreen from './screens/rules.js';
 import GreetingScreen from './screens/greeting.js';
 import GameScreen from './screens/game.js';
@@ -60,7 +60,7 @@ export default class Application {
   }
 
   static showError(error) {
-    const errorScreen = new ErrorScreen(error);
+    const errorScreen = new ErrorModal(error);
     errorScreen.updateScreen();
   }
 
