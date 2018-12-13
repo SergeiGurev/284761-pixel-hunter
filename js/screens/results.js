@@ -3,17 +3,17 @@ import Application from '../application.js';
 import ResultsView from '../view/results-view.js';
 
 class ResultsScreen {
-  constructor(model, data) {
-    this.model = model;
-    this.data = data;
-    this.content = new ResultsView(this.data);
+  constructor(gameData, resultsData) {
+    this.gameData = gameData;
+    this.resultsData = resultsData;
+    this.content = new ResultsView(this.resultsData);
   }
 
   updateScreen() {
     showScreen(this.content.element);
 
     this.content.onBackClick = () => {
-      Application.showGreeting(this.model.data);
+      Application.showGreeting(this.gameData);
     };
   }
 }

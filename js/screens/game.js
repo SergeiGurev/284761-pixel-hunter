@@ -9,8 +9,7 @@ const ONE_SECOND = 1000;
 const TIME_TO_ANSWER = INITIAL_GAME.time;
 
 class GameScreen {
-  constructor(model, data) {
-    this.data = data;
+  constructor(model) {
     this.model = model;
     this.content = new GameView(this.model.state, this.model.data);
     this.header = new HeaderView(this.model.state);
