@@ -18,18 +18,22 @@ const loadImage = (url) => {
 
 export default class Application {
 
-  static showIntro() {
+  static start() {
+    Application.load().catch((error) => Application.showError(error));
+  }
+
+  static async load() {
     const intro = new IntroScreen();
     intro.updateScreen();
     intro.startPreloader();
-    Loader.loadData()
-      .then((data) => {
-        this.data = data;
-        return [].concat(...data.map(({answers}) => answers.map(({image}) => loadImage(image.url))));
-      })
-      .then((images) => Promise.all(images))
-      .then(() => Application.showGreeting(this.data))
-      .catch((error) => Application.showError(error));
+
+    try {
+      const gameData = await Loader.loadData();
+      this.images = await Promise.all([].concat(...gameData.map(({answers}) => answers.map(({image}) => loadImage(image.url)))));
+      Application.showGreeting(gameData);
+    } finally {
+      intro.stopPreloader();
+    }
   }
 
   static showGreeting(data) {
@@ -48,15 +52,17 @@ export default class Application {
     game.updateScreen();
   }
 
-  static showResults(model) {
+  static async showResults(model) {
     const name = model.playerName;
-    Loader.saveResults(model.state, name)
-      .then(() => Loader.loadResults(name))
-      .then((data) => {
-        const results = new ResultsScreen(model.data, data);
-        results.updateScreen();
-      })
-      .catch((error) => Application.showError(error));
+
+    try {
+      await Loader.saveResults(model.state, name);
+      const data = await Loader.loadResults(name);
+      const results = new ResultsScreen(model.data, data);
+      results.updateScreen();
+    } catch (error) {
+      Application.showError(error);
+    }
   }
 
   static showError(error) {

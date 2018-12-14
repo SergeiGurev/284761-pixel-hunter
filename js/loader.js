@@ -1,22 +1,37 @@
 const SERVER_URL = `https://es.dump.academy/pixel-hunter`;
 const APP_ID = 284761;
+const STATUS_OK = 200;
 
 const checkStatus = (response) => {
-  return (response.ok) ? response : new Error(`${response.status} : ${response.statusText}`);
+  return (response.ok) ? STATUS_OK : new Error(`${response.status} : ${response.statusText}`);
 };
 
 const toJSON = (response) => response.json();
 
 class Loader {
-  static loadData() {
-    return fetch(`${SERVER_URL}/questions`).then(checkStatus).then(toJSON);
+  static async loadData() {
+    const response = await fetch(`${SERVER_URL}/questions`);
+    const status = checkStatus(response);
+
+    if (status === STATUS_OK) {
+      return toJSON(response);
+    } else {
+      throw status;
+    }
   }
 
-  static loadResults(name) {
-    return fetch(`${SERVER_URL}/stats/${APP_ID}-${name}`).then(checkStatus).then(toJSON);
+  static async loadResults(name) {
+    const response = await fetch(`${SERVER_URL}/stats/${APP_ID}-${name}`);
+    const status = checkStatus(response);
+
+    if (status === STATUS_OK) {
+      return toJSON(response);
+    } else {
+      throw status;
+    }
   }
 
-  static saveResults(data, name) {
+  static async saveResults(data, name) {
     data = Object.assign({name}, data);
     const requestSettings = {
       body: JSON.stringify(data),
@@ -25,7 +40,15 @@ class Loader {
       },
       method: `POST`
     };
-    return fetch(`${SERVER_URL}/stats/${APP_ID}-${name}`, requestSettings).then(checkStatus);
+
+    const response = await fetch(`${SERVER_URL}/stats/${APP_ID}-${name}`, requestSettings);
+    const status = checkStatus(response);
+
+    if (status === STATUS_OK) {
+      return response;
+    } else {
+      throw status;
+    }
   }
 }
 
