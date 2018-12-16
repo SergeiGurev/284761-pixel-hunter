@@ -2,6 +2,12 @@
  * Стили для игровых экранов
  */
 
+ @keyframes blink {
+  0% {opacity: 1;}
+  50% {opacity: 0;}
+  100% {opacity: 1;}
+ }
+
 @import "../variables/colors";
 @import "../mixins/text";
 
@@ -16,6 +22,14 @@
   @include bold-text;
   font-size: 60px;
   line-height: 45px;
+
+  animation-duration: 1s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+
+  &--blink {
+    animation-name: blink;
+  }
 }
 
 .game__task {

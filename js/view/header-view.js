@@ -1,5 +1,7 @@
 import AbstractView from './abstract-view.js';
 
+const BLINK_TIME = 5;
+
 class HeaderView extends AbstractView {
   constructor(state) {
     super();
@@ -7,6 +9,8 @@ class HeaderView extends AbstractView {
   }
 
   get template() {
+    let timerClass = `game__timer`;
+    timerClass += this.state.time <= BLINK_TIME ? ` game__timer--blink` : ``;
     return `<header class="header">
       <button class="back">
         <span class="visually-hidden">Вернуться к началу</span>
@@ -17,7 +21,7 @@ class HeaderView extends AbstractView {
           <use xlink:href="img/sprite.svg#logo-small"></use>
         </svg>
       </button>
-      <div class="game__timer">${this.state.time}</div>
+      <div class="${timerClass}">${this.state.time}</div>
       <div class="game__lives">
         ${new Array(3 - this.state.lives)
           .fill(`<img src="img/heart__empty.svg" class="game__heart" alt=" Missed Life" width="31" height="27">`)
