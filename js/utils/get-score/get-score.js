@@ -1,13 +1,9 @@
-const TRUE_POINTS = 100;
-const LIVE_POINTS = 50;
-const TIME_BONUS_OR_PENALTY = 50;
-const FAST_TIME = 10;
-const SLOW_TIME = 20;
+import {AnswerData} from '../../data/game-data.js';
 
 const getScore = (answers, lives) => {
   const wrongAnswers = answers.filter((answer) => !answer.isTrue).length;
 
-  if (answers.length < 10 || wrongAnswers > 3) {
+  if (answers.length < AnswerData.MAX_ANSWERS || wrongAnswers > AnswerData.MAX_WRONG_ANSWERS) {
     return -1;
   }
 
@@ -15,19 +11,19 @@ const getScore = (answers, lives) => {
 
   answers.forEach((answer) => {
     if (answer.isTrue) {
-      points += TRUE_POINTS;
+      points += AnswerData.TRUE_POINTS;
 
-      if (answer.time < FAST_TIME) {
-        points += TIME_BONUS_OR_PENALTY;
+      if (answer.time < AnswerData.FAST_TIME) {
+        points += AnswerData.TIME_BONUS_OR_PENALTY;
       }
 
-      if (answer.time > SLOW_TIME) {
-        points -= TIME_BONUS_OR_PENALTY;
+      if (answer.time > AnswerData.SLOW_TIME) {
+        points -= AnswerData.TIME_BONUS_OR_PENALTY;
       }
     }
   });
 
-  points += lives * LIVE_POINTS;
+  points += lives * AnswerData.LIVE_POINTS;
 
   return points;
 };

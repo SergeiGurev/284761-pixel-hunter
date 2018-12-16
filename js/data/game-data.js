@@ -15,3 +15,13 @@ export const AnswerType = {
   PAINTING: `painting`,
   PHOTO: `photo`
 };
+
+export const AnswerData = {
+  TRUE_POINTS: 100,
+  LIVE_POINTS: 50,
+  TIME_BONUS_OR_PENALTY: 50,
+  FAST_TIME: 10,
+  SLOW_TIME: 20,
+  MAX_ANSWERS: 10,
+  MAX_WRONG_ANSWERS: 3
+};
