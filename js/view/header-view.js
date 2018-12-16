@@ -1,6 +1,6 @@
 import AbstractView from './abstract-view.js';
 
-class Header extends AbstractView {
+class HeaderView extends AbstractView {
   constructor(state) {
     super();
     this.state = state;
@@ -40,4 +40,4 @@ class Header extends AbstractView {
   onBackClick() {}
 }
 
-export default Header;
+export default HeaderView;

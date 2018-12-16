@@ -2,7 +2,7 @@ import getScore from '../utils/get-score/get-score.js';
 import AbstractView from './abstract-view.js';
 import GameStats from './game-stats-view.js';
 
-class Results extends AbstractView {
+class ResultsView extends AbstractView {
   constructor(data) {
     super();
     this.data = data.reverse();
@@ -86,4 +86,4 @@ class Results extends AbstractView {
   onBackClick() {}
 }
 
-export default Results;
+export default ResultsView;

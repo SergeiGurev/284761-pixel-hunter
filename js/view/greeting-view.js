@@ -1,6 +1,6 @@
 import AbstractView from './abstract-view.js';
 
-class Greeting extends AbstractView {
+class GreetingView extends AbstractView {
   constructor() {
     super();
   }
@@ -39,4 +39,4 @@ class Greeting extends AbstractView {
   onBtnClick() {}
 }
 
-export default Greeting;
+export default GreetingView;

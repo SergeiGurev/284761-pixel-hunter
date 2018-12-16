@@ -3,7 +3,7 @@ import {QuestionType, AnswerType} from '../data/game-data.js';
 import AbstractView from './abstract-view.js';
 import GameStats from './game-stats-view.js';
 
-class Game extends AbstractView {
+class GameView extends AbstractView {
   constructor(state, data) {
     super();
     this.data = data;
@@ -111,4 +111,4 @@ class Game extends AbstractView {
   updateGame() {}
 }
 
-export default Game;
+export default GameView;

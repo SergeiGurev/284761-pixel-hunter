@@ -1,6 +1,6 @@
 import AbstractView from './abstract-view.js';
 
-class Error extends AbstractView {
+class ErrorView extends AbstractView {
   constructor(error) {
     super();
     this.error = error;
@@ -16,4 +16,4 @@ class Error extends AbstractView {
   }
 }
 
-export default Error;
+export default ErrorView;

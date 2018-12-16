@@ -1,6 +1,6 @@
 import AbstractView from './abstract-view.js';
 
-class GameStats extends AbstractView {
+class GameStatsView extends AbstractView {
   constructor(answers = []) {
     super();
     this.answers = answers;
@@ -31,4 +31,4 @@ class GameStats extends AbstractView {
   }
 }
 
-export default GameStats;
+export default GameStatsView;

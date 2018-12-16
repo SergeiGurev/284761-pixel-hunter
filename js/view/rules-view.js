@@ -1,6 +1,6 @@
 import AbstractView from './abstract-view.js';
 
-class Rules extends AbstractView {
+class RulesView extends AbstractView {
   constructor() {
     super();
   }
@@ -64,4 +64,4 @@ class Rules extends AbstractView {
   onBackClick() {}
 }
 
-export default Rules;
+export default RulesView;
