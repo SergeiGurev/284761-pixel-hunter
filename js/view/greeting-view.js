@@ -1,12 +1,13 @@
 import AbstractView from './abstract-view.js';
 
 class GreetingView extends AbstractView {
-  constructor() {
+  constructor(fade) {
     super();
+    this.fade = fade;
   }
 
   get template() {
-    return `<section class="greeting central--blur">
+    return `<section class="greeting ${this.fade ? `greeting--fade` : ``}">
       <img class="greeting__logo" src="img/logo_ph-big.svg" width="201" height="89" alt="Pixel Hunter">
       <div class="greeting__asterisk asterisk"><span class="visually-hidden">Я просто красивая звёздочка</span>*</div>
       <div class="greeting__challenge">
@@ -25,7 +26,8 @@ class GreetingView extends AbstractView {
           <use xlink:href="img/sprite.svg#arrow-right"></use>
         </svg>
       </button>
-    </section>`;
+    </section>
+    ${this.fade ? `<div class="greeting__fade"></div>` : ``}`;
   }
 
   bind(element) {

@@ -7,6 +7,8 @@ import GameModel from './models/game-model.js';
 import ResultsScreen from './screens/results-screen.js';
 import Loader from './loader.js';
 
+const GREETING_FADE = true;
+
 const loadImage = (url) => {
   return new Promise((resolve, reject) => {
     const image = new Image();
@@ -30,14 +32,14 @@ class Application {
     try {
       const gameData = await Loader.loadData();
       this.images = await Promise.all([].concat(...gameData.map(({answers}) => answers.map(({image}) => loadImage(image.url)))));
-      Application.showGreeting(gameData);
+      Application.showGreeting(gameData, GREETING_FADE);
     } finally {
       intro.stopPreloader();
     }
   }
 
-  static showGreeting(data) {
-    const greeting = new GreetingScreen(data);
+  static showGreeting(data, fade = false) {
+    const greeting = new GreetingScreen(data, fade);
     greeting.updateScreen();
   }
 
