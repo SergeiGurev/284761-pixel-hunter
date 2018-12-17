@@ -1,34 +1,25 @@
 const SERVER_URL = `https://es.dump.academy/pixel-hunter`;
 const APP_ID = 284761;
-const STATUS_OK = 200;
 
-const checkStatus = (response) => {
-  return (response.ok) ? STATUS_OK : new Error(`${response.status} : ${response.statusText}`);
+const checkError = (response) => {
+  if (!response.ok) {
+    throw new Error(`${response.status} : ${response.statusText}`);
+  }
 };
-
-const toJSON = (response) => response.json();
 
 class Loader {
   static async loadData() {
     const response = await fetch(`${SERVER_URL}/questions`);
-    const status = checkStatus(response);
+    checkError(response);
 
-    if (status === STATUS_OK) {
-      return toJSON(response);
-    } else {
-      throw status;
-    }
+    return response.json();
   }
 
   static async loadResults(name) {
     const response = await fetch(`${SERVER_URL}/stats/${APP_ID}-${name}`);
-    const status = checkStatus(response);
+    checkError(response);
 
-    if (status === STATUS_OK) {
-      return toJSON(response);
-    } else {
-      throw status;
-    }
+    return response.json();
   }
 
   static async saveResults(data, name) {
@@ -42,13 +33,9 @@ class Loader {
     };
 
     const response = await fetch(`${SERVER_URL}/stats/${APP_ID}-${name}`, requestSettings);
-    const status = checkStatus(response);
+    checkError(response);
 
-    if (status === STATUS_OK) {
-      return response;
-    } else {
-      throw status;
-    }
+    return response;
   }
 }
 

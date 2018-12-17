@@ -1,11 +1,13 @@
-import IntroScreen from './screens/intro.js';
-import ErrorModal from './screens/error.js';
-import RulesScreen from './screens/rules.js';
-import GreetingScreen from './screens/greeting.js';
-import GameScreen from './screens/game.js';
+import IntroScreen from './screens/intro-screen.js';
+import ErrorModal from './screens/error-modal.js';
+import RulesScreen from './screens/rules-screen.js';
+import GreetingScreen from './screens/greeting-screen.js';
+import GameScreen from './screens/game-screen.js';
 import GameModel from './models/game-model.js';
-import ResultsScreen from './screens/results.js';
+import ResultsScreen from './screens/results-screen.js';
 import Loader from './loader.js';
+
+const GREETING_FADE = true;
 
 const loadImage = (url) => {
   return new Promise((resolve, reject) => {
@@ -16,7 +18,7 @@ const loadImage = (url) => {
   });
 };
 
-export default class Application {
+class Application {
 
   static start() {
     Application.load().catch((error) => Application.showError(error));
@@ -30,14 +32,14 @@ export default class Application {
     try {
       const gameData = await Loader.loadData();
       this.images = await Promise.all([].concat(...gameData.map(({answers}) => answers.map(({image}) => loadImage(image.url)))));
-      Application.showGreeting(gameData);
+      Application.showGreeting(gameData, GREETING_FADE);
     } finally {
       intro.stopPreloader();
     }
   }
 
-  static showGreeting(data) {
-    const greeting = new GreetingScreen(data);
+  static showGreeting(data, fade = false) {
+    const greeting = new GreetingScreen(data, fade);
     greeting.updateScreen();
   }
 
@@ -46,7 +48,7 @@ export default class Application {
     rules.updateScreen();
   }
 
-  static showGame(data, playerName = ``) {
+  static showGame(data, playerName) {
     const model = new GameModel(data, playerName);
     const game = new GameScreen(model);
     game.updateScreen();
@@ -66,8 +68,10 @@ export default class Application {
   }
 
   static showError(error) {
-    const errorScreen = new ErrorModal(error);
-    errorScreen.updateScreen();
+    const errorModal = new ErrorModal(error);
+    errorModal.updateScreen();
   }
 
 }
+
+export default Application;

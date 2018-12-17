@@ -4,6 +4,7 @@ import Application from '../application.js';
 
 import GameView from '../view/game-view.js';
 import HeaderView from '../view/header-view.js';
+import ModalView from '../view/modal-view.js';
 
 const ONE_SECOND = 1000;
 const TIME_TO_ANSWER = INITIAL_GAME.time;
@@ -44,9 +45,23 @@ class GameScreen {
     const header = new HeaderView(this.model.state);
     this.root.replaceChild(header.element, this.header.element);
     this.header = header;
+
     this.header.onBackClick = () => {
       this.stopTimer();
-      Application.showGreeting(this.model.data);
+      const modal = new ModalView();
+      const body = document.querySelector(`body`);
+
+      body.appendChild(modal.element);
+
+      modal.onCancelClick = () => {
+        this._tick();
+        body.removeChild(modal.element);
+      };
+
+      modal.onOkClick = () => {
+        Application.showGreeting(this.model.data);
+        body.removeChild(modal.element);
+      };
     };
   }
 

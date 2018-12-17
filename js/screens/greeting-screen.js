@@ -3,9 +3,9 @@ import Application from '../application.js';
 import GreetingView from '../view/greeting-view.js';
 
 class GreetingScreen {
-  constructor(data) {
+  constructor(data, fade) {
     this.data = data;
-    this.content = new GreetingView();
+    this.content = new GreetingView(fade);
   }
 
   updateScreen() {

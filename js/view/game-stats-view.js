@@ -1,6 +1,7 @@
 import AbstractView from './abstract-view.js';
+import {AnswerData} from '../data/game-data.js';
 
-class GameStats extends AbstractView {
+class GameStatsView extends AbstractView {
   constructor(answers = []) {
     super();
     this.answers = answers;
@@ -9,10 +10,10 @@ class GameStats extends AbstractView {
   get template() {
     // correct, wrong, slow, fast
     const stats = this.answers.map((answer) => {
-      if (answer.isTrue && answer.time < 10) {
+      if (answer.isTrue && answer.time < AnswerData.FAST_TIME) {
         return `fast`;
       }
-      if (answer.isTrue && answer.time > 20) {
+      if (answer.isTrue && answer.time > AnswerData.SLOW_TIME) {
         return `slow`;
       }
       if (answer.isTrue) {
@@ -21,7 +22,7 @@ class GameStats extends AbstractView {
       return `wrong`;
     });
 
-    while (stats.length !== 10) {
+    while (stats.length !== AnswerData.MAX_ANSWERS) {
       stats.push(`unknown`);
     }
 
@@ -31,4 +32,4 @@ class GameStats extends AbstractView {
   }
 }
 
-export default GameStats;
+export default GameStatsView;
