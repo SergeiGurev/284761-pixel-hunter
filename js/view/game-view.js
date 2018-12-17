@@ -1,7 +1,9 @@
 import resize from '../utils/resize/resize.js';
-import {QuestionType, AnswerType} from '../data/game-data.js';
+import {QuestionType, AnswerType, DEBUG_MODE} from '../data/game-data.js';
 import AbstractView from './abstract-view.js';
 import GameStats from './game-stats-view.js';
+
+const ONLY_ONE_ANSWER = 1;
 
 class GameView extends AbstractView {
   constructor(state, data) {
@@ -37,17 +39,18 @@ class GameView extends AbstractView {
     });
 
     const imageElement = `<img src=${answer.image.url} alt="Option ${index + 1}" width="${size.width}" height="${size.height}">`;
-    const tempAnswer = `<span style="position: absolute; font-size: 25px; color: red">${answer.type}</span>`;
+
+    const debug = DEBUG_MODE ? `<span style="position: absolute; font-size: 25px; color: red">${answer.type}</span>` : ``;
 
     if (levelType === QuestionType.ONE_OF_THREE) {
       return `<div class="game__option">
-        ${tempAnswer}
+        ${debug}
         ${imageElement}
       </div>`;
     }
 
     return `<div class="game__option">
-      ${tempAnswer}
+      ${debug}
       ${imageElement}
       <label class="game__answer game__answer--photo">
         <input class="visually-hidden" name="question${index + 1}" type="radio" value="photo">
@@ -73,7 +76,7 @@ class GameView extends AbstractView {
 
     if (this.level.type === QuestionType.ONE_OF_THREE) {
       const paintAnswers = this.level.answers.filter((answer) => answer.type === AnswerType.PAINTING);
-      answerType = paintAnswers.length === 1 ? AnswerType.PAINTING : AnswerType.PHOTO;
+      answerType = (paintAnswers.length === ONLY_ONE_ANSWER) ? AnswerType.PAINTING : AnswerType.PHOTO;
     }
 
     options.forEach((option, index) => {
