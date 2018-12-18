@@ -1,4 +1,5 @@
 import getScore from '../utils/get-score/get-score.js';
+import {AnswerData} from '../data/game-data.js';
 import AbstractView from './abstract-view.js';
 import GameStats from './game-stats-view.js';
 
@@ -15,8 +16,8 @@ class ResultsView extends AbstractView {
       const score = getScore(game.answers, game.lives);
       const correctAnswersArr = game.answers.filter((answer) => answer.isTrue);
       const correctAnswers = correctAnswersArr.length;
-      const fastAnswers = correctAnswersArr.filter((answer) => answer.time < 10).length;
-      const slowAnswers = correctAnswersArr.filter((answer) => answer.time > 20).length;
+      const fastAnswers = correctAnswersArr.filter((answer) => answer.time < AnswerData.FAST_TIME).length;
+      const slowAnswers = correctAnswersArr.filter((answer) => answer.time > AnswerData.SLOW_TIME).length;
       if (!index) {
         this.win = !(score < 0);
       }
@@ -28,28 +29,28 @@ class ResultsView extends AbstractView {
             ${renderGameStats.template}
           </td>
           <td class="result__points">× 100</td>
-          <td class="result__total">${correctAnswers * 100}</td>
+          <td class="result__total">${correctAnswers * AnswerData.TRUE_POINTS}</td>
         </tr>
         ${fastAnswers > 0 ? `<tr>
           <td></td>
           <td class="result__extra">Бонус за скорость:</td>
           <td class="result__extra">${fastAnswers} <span class="stats__result stats__result--fast"></span></td>
           <td class="result__points">× 50</td>
-          <td class="result__total">${fastAnswers * 50}</td>
+          <td class="result__total">${fastAnswers * AnswerData.TIME_BONUS_OR_PENALTY}</td>
         </tr>` : ``}
         ${game.lives > 0 ? `<tr>
           <td></td>
           <td class="result__extra">Бонус за жизни:</td>
           <td class="result__extra">${game.lives} <span class="stats__result stats__result--alive"></span></td>
           <td class="result__points">× 50</td>
-          <td class="result__total">${game.lives * 50}</td>
+          <td class="result__total">${game.lives * AnswerData.LIVE_POINTS}</td>
         </tr>` : ``}
         ${slowAnswers > 0 ? `<tr>
           <td></td>
           <td class="result__extra">Штраф за медлительность:</td>
           <td class="result__extra">${slowAnswers} <span class="stats__result stats__result--slow"></span></td>
           <td class="result__points">× 50</td>
-          <td class="result__total">${-slowAnswers * 50}</td>
+          <td class="result__total">${-slowAnswers * AnswerData.TIME_BONUS_OR_PENALTY}</td>
         </tr>` : ``}
         <tr>
           <td colspan="5" class="result__total  result__total--final">${score < 0 ? `FAIL` : score}</td>

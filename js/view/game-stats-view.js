@@ -1,6 +1,14 @@
 import AbstractView from './abstract-view.js';
 import {AnswerData} from '../data/game-data.js';
 
+const AnswerShape = {
+  CORRECT: `correct`,
+  WRONG: `wrong`,
+  SLOW: `slow`,
+  FAST: `fast`,
+  UNKNOWN: `unknown`
+};
+
 class GameStatsView extends AbstractView {
   constructor(answers = []) {
     super();
@@ -8,22 +16,21 @@ class GameStatsView extends AbstractView {
   }
 
   get template() {
-    // correct, wrong, slow, fast
     const stats = this.answers.map((answer) => {
       if (answer.isTrue && answer.time < AnswerData.FAST_TIME) {
-        return `fast`;
+        return AnswerShape.FAST;
       }
       if (answer.isTrue && answer.time > AnswerData.SLOW_TIME) {
-        return `slow`;
+        return AnswerShape.SLOW;
       }
       if (answer.isTrue) {
-        return `correct`;
+        return AnswerShape.CORRECT;
       }
-      return `wrong`;
+      return AnswerShape.WRONG;
     });
 
     while (stats.length !== AnswerData.MAX_ANSWERS) {
-      stats.push(`unknown`);
+      stats.push(AnswerShape.UNKNOWN);
     }
 
     return `<ul class="stats">

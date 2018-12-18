@@ -71,7 +71,7 @@ class GameView extends AbstractView {
   bind(element) {
     const options = [...element.querySelectorAll(`.game__option`)];
     const levelAnswers = this.level.answers;
-    let optionAnswers = new Map();
+    const optionAnswers = new Map();
     let answerType;
 
     if (this.level.type === QuestionType.ONE_OF_THREE) {
@@ -95,7 +95,7 @@ class GameView extends AbstractView {
             optionAnswers.set(index, ((isImage && isImageBtn) || (isNotImage && isNotImageBtn)));
 
             if (optionAnswers.size === options.length) {
-              let levelAnswer = [...optionAnswers.values()].every((answer) => answer);
+              const levelAnswer = [...optionAnswers.values()].every((answer) => answer);
 
               this.updateGame(levelAnswer);
             }

@@ -7,21 +7,22 @@ const getScore = (answers, lives) => {
     return -1;
   }
 
-  let points = 0;
-
-  answers.forEach((answer) => {
+  let points = answers.reduce((total, answer) => {
+    let answerPoints = 0;
     if (answer.isTrue) {
-      points += AnswerData.TRUE_POINTS;
+      answerPoints += AnswerData.TRUE_POINTS;
 
       if (answer.time < AnswerData.FAST_TIME) {
-        points += AnswerData.TIME_BONUS_OR_PENALTY;
+        answerPoints += AnswerData.TIME_BONUS_OR_PENALTY;
       }
 
       if (answer.time > AnswerData.SLOW_TIME) {
-        points -= AnswerData.TIME_BONUS_OR_PENALTY;
+        answerPoints -= AnswerData.TIME_BONUS_OR_PENALTY;
       }
     }
-  });
+
+    return total + answerPoints;
+  }, 0);
 
   points += lives * AnswerData.LIVE_POINTS;
 
